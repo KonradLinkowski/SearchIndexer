@@ -140,7 +140,6 @@ const start = async (link) => {
     }
     index += 1
     if (currentCommand === 'close') {
-      mongoose.connection.close()
       return
     }
   }
@@ -151,10 +150,13 @@ mongoose.connect(process.env.MONGO_STRING, {
   useCreateIndex: true,
   useFindAndModify: false
 })
-.then(res => {
+.then(() => {
   console.log('Connected to database')
   const startLink = process.argv[2]
   start(startLink)
+  .then(() => {
+    mongoose.connection.close()
+  })
 })
 .catch(err => {
   console.error(err)
@@ -169,7 +171,8 @@ const rl = readline.createInterface({
 rl.on('line', line => {
   const command = line.trim()
   if (['close', 'exit', 'cl', 'ex'].includes(command)) {
-    currentCommand === 'close'
+    console.log('close')
+    currentCommand = 'close'
     rl.close()
   }
 })
