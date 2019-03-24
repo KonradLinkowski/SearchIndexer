@@ -43,11 +43,15 @@ const retrieveLinks = async (parsed, url) => {
 }
 
 const retrieveContent = parsed => {
+  const meta = parsed.querySelectorAll(
+    'meta[name="description"],meta[property="og:title"],meta[property="og:description"]'
+  )
+  const metaContent = [...meta].map(e => e.getAttribute('content')).join('\n')
   const main = parsed.querySelectorAll(
     'title,#main,.main,main,[class*="main"],#title,[class*="title"],h1,h2,h3,h4,h5,h6,header,nav'
   )
   const mainContent = [...main].map(e => e.textContent).join('\n')
-  return mainContent
+  return metaContent.concat(mainContent)
 }
 
 const parseContent = content => {
@@ -68,7 +72,7 @@ const saveLinks = async links => {
     if (!doc) {
       const newDoc = new Link({
         url: link,
-        processed: false
+        processed: 'no'
       })
       newDoc.save()
     }
@@ -95,11 +99,11 @@ const saveTags = async (tags, url) => {
 }
 
 const loadMoreLinks = async () => {
-  return await Link.find({ processed: false })
+  return await Link.find({ processed: 'no' })
 }
 
-const markProcessed = async (url) => {
-  await Link.findOneAndUpdate({ url }, { $set: { processed: true } })
+const markProcessed = async (url, status) => {
+  await Link.findOneAndUpdate({ url }, { $set: { processed: status } })
 }
 
 const start = async (link) => {
@@ -130,13 +134,16 @@ const start = async (link) => {
         console.log('got tags', words.length)
         await saveTags(words, url)
         console.log('saved tags')
-        await markProcessed(url)
+        await markProcessed(url, 'yes')
         console.log('url marked as processed')
       }
     } catch (error) {
       console.log('error')
       console.log(url)
       console.error(error.message)
+      if (['ENOTFOUND'].includes(error.code) || (error.response && error.response.status >= 400)) {
+        await markProcessed(url, 'unavailable')
+      }
     }
     index += 1
     if (currentCommand === 'close') {

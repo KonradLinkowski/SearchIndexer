@@ -7,7 +7,7 @@ const LinkSchema = new mongoose.Schema({
     required: true
   },
   processed: {
-    type: Boolean
+    type: String
   }
 })
 
