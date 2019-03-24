@@ -44,7 +44,7 @@ const retrieveLinks = async (parsed, url) => {
 
 const retrieveContent = parsed => {
   const main = parsed.querySelectorAll(
-    '#main,.main,main,[class*="main"],#title,[class*="title"],h1,h2,h3,h4,h5,h6,header,nav'
+    'title,#main,.main,main,[class*="main"],#title,[class*="title"],h1,h2,h3,h4,h5,h6,header,nav'
   )
   const mainContent = [...main].map(e => e.textContent).join('\n')
   return mainContent
