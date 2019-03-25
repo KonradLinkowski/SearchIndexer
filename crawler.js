@@ -98,8 +98,8 @@ const saveTags = async (tags, url) => {
   }
 }
 
-const loadMoreLinks = async () => {
-  return await Link.find({ processed: 'no' })
+const loadMoreLinks = async (limit = 100) => {
+  return await Link.find({ processed: 'no' }).limit(limit)
 }
 
 const markProcessed = async (url, status) => {
