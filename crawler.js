@@ -61,7 +61,7 @@ const parseContent = content => {
     .split(' ')
     .filter(e => e.trim().length)
     .map(e => e.toLowerCase())
-  ).filter(e => e.length > 2)
+  ).filter(e => e.length > 2 && e.length < 50)
   return [... new Set(words)].slice(0, 100)
 }
 
@@ -143,6 +143,8 @@ const start = async (link) => {
       console.error(error.message)
       if (['ENOTFOUND'].includes(error.code) || (error.response && error.response.status >= 400)) {
         await markProcessed(url, 'unavailable')
+      } else {
+        await markProcessed(url, 'unavailable_now')
       }
     }
     index += 1
