@@ -5,5 +5,16 @@
     "jsdom": "^14.0.0",
     "mongoose": "^5.4.19",
     "stopword": "^0.2.1"
-  }
+  },
+  "scripts": {
+    "start": "node crawler.js"
+  },
+  "name": "SearchIndexer",
+  "version": "1.0.0",
+  "description": "Simple internet crawler for indexing websites.",
+  "main": "crawler.js", 
+  "repository": "https://github.com/KonradLinkowski/SearchIndexer",
+  "author": "Konrad Linkowski <linkowski.konrad97@gmail.com>",
+  "license": "MIT",
+  "private": true
 }
