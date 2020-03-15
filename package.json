@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "dotenv": "^7.0.0",
     "jsdom": "^14.0.0",
     "mongoose": "^5.4.19",
