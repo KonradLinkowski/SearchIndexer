@@ -3,7 +3,7 @@
     "axios": "^0.18.1",
     "dotenv": "^7.0.0",
     "jsdom": "^14.0.0",
-    "mongoose": "^5.4.19",
+    "mongoose": "^5.7.5",
     "stopword": "^0.2.1"
   },
   "scripts": {
